@@ -12,10 +12,22 @@ function Home() {
 
       const domTree = generateDomObject(rootElement);
       
+      const hierarchyString = printHierarchy(domTree);
+
+// Create a <pre> element to display the hierarchy string
+      const preElement = document.createElement("pre");
+      preElement.textContent = hierarchyString;
+
+      // Append the <pre> element to a div
+      const outputDiv = document.getElementById("output"); // Replace "output" with the ID of your div
+      outputDiv.appendChild(preElement);
+
+    };
+
     iframe.addEventListener("load", handleIframeLoad);
   return (
     <div className="w-full min-h-screen flex gap-10">
-      <aside className="w-72 bg-slate-900"></aside>
+      <aside className="w-[400px] bg-slate-900 text-white py-5 overflow-y-auto max-h-screen" id="output"></aside>
       <iframe
         ref={iframeRef}
         className="flex flex-1 m-10 rounded-2xl shadow-lg"
