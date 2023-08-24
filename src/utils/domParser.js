@@ -20,3 +20,20 @@ export function generateDomObject(element) {
 
   return domObject;
 }
+export function printHierarchy(domObject, depth = 0) {
+  const indent = "  ".repeat(depth);
+
+  const componentName = domObject.attributes["data-component-name"];
+  const tagInfo = componentName
+    ? `${componentName} (react component)`
+    : domObject.tagName;
+
+  let hierarchyString = `${indent} ${tagInfo}\n`;
+
+  for (const child of domObject.children) {
+    hierarchyString += printHierarchy(child, depth + 1);
+  }
+
+  hierarchyString += `${indent} ${tagInfo}\n`;
+  return hierarchyString;
+}
