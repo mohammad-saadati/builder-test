@@ -25,6 +25,13 @@ function Home() {
     };
 
     iframe.addEventListener("load", handleIframeLoad);
+
+    return () => {
+      iframe.removeEventListener("load", handleIframeLoad);
+    };
+  }, [])
+
+  
   return (
     <div className="w-full min-h-screen flex gap-10">
       <aside className="w-[400px] bg-slate-900 text-white py-5 overflow-y-auto max-h-screen" id="output"></aside>
