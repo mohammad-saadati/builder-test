@@ -41,7 +41,7 @@ function Template() {
           <dl className="mt-4 text-xs font-medium flex items-center row-start-2 sm:mt-1 sm:row-start-3 md:mt-2.5 lg:row-start-2">
             <dt className="sr-only">Reviews</dt>
             <dd className="text-indigo-600 flex items-center dark:text-indigo-400">
-              <Star />
+              <Star data-component-name="Star"/>
               <span>
                 4.89 <span className="text-slate-400 font-normal">(128)</span>
               </span>
@@ -57,12 +57,12 @@ function Template() {
               >
                 <circle cx="1" cy="1" r="1" />
               </svg>
-              <Location />
+              <Location data-component-name="Location"/>
               Collingwood, Ontario
             </dd>
           </dl>
           <div className="mt-4 col-start-1 row-start-3 self-center sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-6 lg:col-start-1 lg:row-start-3 lg:row-end-4">
-            <Button title="Check availability" />
+            <Button title="Check availability" data-component-name="Button"/>
           </div>
           <p className="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
             This sunny and spacious room is for those traveling light and

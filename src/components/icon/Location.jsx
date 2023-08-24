@@ -1,4 +1,4 @@
-function Location() {
+function Location({...rest}) {
   return (
     <svg
       width="24"
@@ -10,6 +10,7 @@ function Location() {
       strokeLinejoin="round"
       className="mr-1 text-slate-400 dark:text-slate-500"
       aria-hidden="true"
+      {...rest}
     >
       <path d="M18 11.034C18 14.897 12 19 12 19s-6-4.103-6-7.966C6 7.655 8.819 5 12 5s6 2.655 6 6.034Z" />
       <path d="M14 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />

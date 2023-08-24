@@ -1,4 +1,4 @@
-function Star() {
+function Star({...rest}) {
   return (
     <svg
       width="24"
@@ -6,6 +6,7 @@ function Star() {
       fill="none"
       aria-hidden="true"
       className="mr-1 stroke-current dark:stroke-indigo-500"
+      {...rest}
     >
       <path
         d="m12 5 2 5h5l-4 4 2.103 5L12 16l-5.103 3L9 14l-4-4h5l2-5Z"
