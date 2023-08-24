@@ -1,5 +1,10 @@
+import {useEffect, useRef, useState} from "react"
+import {generateDomObject, printHierarchy} from "../utils/domParser.js"
+
 function Home() {
+  const iframeRef = useRef(null)
   const [hirarcy, setHierarchy] = useState(null)
+
   useEffect(() => {
     const iframe = iframeRef.current;
 
