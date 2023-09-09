@@ -1,32 +1,26 @@
-import {useEffect, useRef, useState} from "react"
-import {generateDomObject, printHierarchy} from "../utils/domParser.js"
+import { useEffect, useRef, useState } from "react";
+import { getInternalReact } from "react-devtools";
 
 function Home() {
-  const iframeRef = useRef(null)
-  const [hirarcy, setHierarchy] = useState(null)
+  const iframeRef = useRef(null);
+  const [hierarchyString, setHierarchyString] = useState("");
 
   useEffect(() => {
     const iframe = iframeRef.current;
 
     const handleIframeLoad = () => {
-      const iframeContent = iframe.contentWindow.document.body.innerHTML;
+      const internalReact = getInternalReact();
+      if (!internalReact) {
+        console.error("React DevTools not found.");
+        return;
+      }
 
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(iframeContent, "text/html");
-      const rootElement = doc.querySelector("body");
+      const fiberRoot = internalReact.findFiberRoot(iframe.contentWindow);
 
-      const domTree = generateDomObject(rootElement);
-      
-      const hierarchyString = printHierarchy(domTree);
+      const hierarchyString = traverseFiberTree(fiberRoot.current);
+      setHierarchyString(hierarchyString);
 
-// Create a <pre> element to display the hierarchy string
-      const preElement = document.createElement("pre");
-      preElement.textContent = hierarchyString;
-
-      // Append the <pre> element to a div
-      const outputDiv = document.getElementById("output"); // Replace "output" with the ID of your div
-      outputDiv.appendChild(preElement);
-
+      iframe.removeEventListener("load", handleIframeLoad);
     };
 
     iframe.addEventListener("load", handleIframeLoad);
@@ -34,12 +28,27 @@ function Home() {
     return () => {
       iframe.removeEventListener("load", handleIframeLoad);
     };
-  }, [])
+  }, []);
 
-  
+  const traverseFiberTree = (node, depth = 0) => {
+    const indent = "  ".repeat(depth);
+    let hierarchyString = `${indent}${node.type.displayName || node.type.name || "Unknown"}\n`;
+
+    if (node.child) {
+      hierarchyString += traverseFiberTree(node.child, depth + 1);
+    }
+    if (node.sibling) {
+      hierarchyString += traverseFiberTree(node.sibling, depth);
+    }
+
+    return hierarchyString;
+  };
+
   return (
     <div className="w-full min-h-screen flex gap-10">
-      <aside className="w-[400px] bg-slate-900 text-white py-5 overflow-y-auto max-h-screen" id="output"></aside>
+      <aside className="w-[400px] bg-slate-900 text-white py-5 overflow-y-auto max-h-screen">
+        <pre>{hierarchyString}</pre>
+      </aside>
       <iframe
         ref={iframeRef}
         className="flex flex-1 m-10 rounded-2xl shadow-lg"
